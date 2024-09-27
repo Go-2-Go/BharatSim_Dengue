@@ -4,6 +4,9 @@ import com.bharatsim.engine.basicConversions.StringValue
 import com.bharatsim.engine.basicConversions.decoders.BasicDecoder
 import com.bharatsim.engine.basicConversions.encoders.BasicEncoder
 
+/**
+  * Stores information about the state a person is in.
+  */
 object InfectionStatus extends Enumeration {
   type InfectionStatus = Value
   val Susceptible, Infected, Removed = Value
