@@ -14,13 +14,14 @@ import com.bharatsim.engine.graph.patternMatcher.MatchCondition._
 import com.bharatsim.engine.listeners.{CsvOutputGenerator, SimulationListenerRegistry}
 import com.bharatsim.engine.models.Agent
 import com.bharatsim.engine.utils.Probability.biasedCoinToss
+import com.bharatsim.engine.distributions.LogNormal
 import dengueModel.InfectionStatus._
 import dengueModel.Parameters._
 import com.typesafe.scalalogging.LazyLogging
 
 object Main extends LazyLogging {
-  val mosquitoLife = 10
-  val mosquitoPerPerson = 10
+  val mosquitoLifeDistribution = LogNormal(20, 5)
+  val mosquitoPerPersonDistribution = LogNormal(10, 10)
 
   def main(args: Array[String]): Unit = {
     // Count of infected people before starting the simulation.
@@ -222,7 +223,7 @@ object Main extends LazyLogging {
 
     /* Add [[Mosquito]] instances to the simulation */
     val mosquitoId = citizenId * 100
-    for ( mosquitoNumber <- 0 to mosquitoPerPerson) 
+    for ( mosquitoNumber <- 0 to mosquitoPerPersonDistribution.sample().asInstanceOf[Int]) 
       defineMosquito(context, mosquitoId + mosquitoNumber, homeId, graphData) 
 
     graphData
@@ -242,7 +243,7 @@ object Main extends LazyLogging {
     val initialInfectionState = "Susceptible"// if (biasedCoinToss(initialInfectedFraction)) "Infected" else "Susceptible"
     val mosquito: Mosquito = Mosquito(
       id,
-      mosquitoLife,
+      mosquitoLifeDistribution.sample().asInstanceOf[Int],
       MosquitoInfectionStatus.withName(initialInfectionState),
       0,
       )

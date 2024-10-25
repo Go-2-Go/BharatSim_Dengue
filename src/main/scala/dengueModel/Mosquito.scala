@@ -31,8 +31,11 @@ case class Mosquito(
     * @param context [[Context]] instance whose parameter is to be incremented.
     */
   private val incrementInfectedDuration: Context => Unit = (context: Context) => {
-    if (isInfected && context.getCurrentStep % numberOfTicksInADay == 0) {
-      updateParam("daysInfected", daysInfected + 1)
+    if (context.getCurrentStep % numberOfTicksInADay == 0) {
+      updateParam("life", life - 1)
+      if (isInfected) {
+        updateParam("daysInfected", daysInfected + 1)
+      }
     }
   }
 
@@ -86,12 +89,22 @@ case class Mosquito(
       updateParam("infectionState", Removed)
   }
 
+  /**
+    * Transition to Deceased for mosquito in case of age end
+    * @param context Currnent [[Context]] for the simulation.
+    */
+  private val checkForDeath: Context => Unit = (context: Context) => {
+    if (life <= 0)
+      updateParam("infectionState", Deceased)
+  }
+
   def isSusceptible: Boolean = infectionState == Susceptible
 
   def isInfected: Boolean = infectionState == Infected
 
   def isRecovered: Boolean = infectionState == Removed
 
+  def isDeceased: Boolean = infectionState == Deceased
 
   /**
     * Returns [[Node]] according to the given class name.
@@ -110,6 +123,7 @@ case class Mosquito(
   addBehaviour(incrementInfectedDuration)
   addBehaviour(checkForInfection)
   addBehaviour(checkForRecovery)
+  addBehaviour(checkForDeath)
 
   /** [[Node.addRelation]] */
   // Add these relations, the Node to which the relation is defined

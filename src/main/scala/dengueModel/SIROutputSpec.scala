@@ -3,7 +3,8 @@ package dengueModel
 import com.bharatsim.engine.Context
 import com.bharatsim.engine.graph.patternMatcher.MatchCondition._
 import com.bharatsim.engine.listeners.CSVSpecs
-import dengueModel.InfectionStatus.{Susceptible, Infected, Removed}
+import dengueModel.InfectionStatus
+import dengueModel.MosquitoInfectionStatus
 
 /**
   * Sets the specifications for the output csv file
@@ -41,12 +42,13 @@ class SIROutputSpec(context: Context) extends CSVSpecs {
     val mosquito = "Mosquito"
     val row = List(
       context.getCurrentStep,
-      graphProvider.fetchCount(citizen, "infectionState" equ Susceptible),
-      graphProvider.fetchCount(citizen, "infectionState" equ Infected),
-      graphProvider.fetchCount(citizen, "infectionState" equ Removed),
-      graphProvider.fetchCount(mosquito, "infectionState" equ Susceptible),
-      graphProvider.fetchCount(mosquito, "infectionState" equ Infected),
-      graphProvider.fetchCount(mosquito, "infectionState" equ Removed)
+      graphProvider.fetchCount(citizen, "infectionState" equ InfectionStatus.Susceptible),
+      graphProvider.fetchCount(citizen, "infectionState" equ InfectionStatus.Infected),
+      graphProvider.fetchCount(citizen, "infectionState" equ InfectionStatus.Removed),
+      graphProvider.fetchCount(mosquito, "infectionState" equ MosquitoInfectionStatus.Susceptible),
+      graphProvider.fetchCount(mosquito, "infectionState" equ MosquitoInfectionStatus.Infected),
+      graphProvider.fetchCount(mosquito, "infectionState" equ MosquitoInfectionStatus.Removed),
+      graphProvider.fetchCount(mosquito, "infectionState" equ MosquitoInfectionStatus.Deceased)
     )
     List(row)
   }

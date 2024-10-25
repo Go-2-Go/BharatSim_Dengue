@@ -9,7 +9,7 @@ import com.bharatsim.engine.basicConversions.encoders.BasicEncoder
   */
 object MosquitoInfectionStatus extends Enumeration {
   type MosquitoInfectionStatus = Value
-  val Susceptible, Infected, Removed = Value
+  val Susceptible, Infected, Removed, Deceased = Value
 
   implicit val infectionStatusDecoder: BasicDecoder[MosquitoInfectionStatus] = {
     case StringValue(v) => withName(v)
@@ -20,5 +20,6 @@ object MosquitoInfectionStatus extends Enumeration {
     case Susceptible => StringValue("Susceptible")
     case Infected => StringValue("Infected")
     case Removed => StringValue("Removed")
+    case Deceased => StringValue("Deceased")
   }
 }
