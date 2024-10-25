@@ -1,0 +1,19 @@
+SIR MODEL
+
+Mosquitoes are restricted to either House or Office.
+For each person, there is a certain number of mosquitoes present.
+
+Main.scala
+
+Mosquito.scala :
+    1. Implement behaviour for birth and death of mosquito.
+    2. Implement function to bite.
+    3. Implement infectious bite.
+    4. Mosquito oviposition for females.
+
+mosquitoState/OvipositionState.scala
+    1. Oviposition means will lay eggs.
+    2. Will have to implement mosquito birth and death.
+    3. Eggs by an infected mosquito will birth infected mosquitoes and eggs by a susceptible mosquito will birth susceptible mosquitoes.
+
+
